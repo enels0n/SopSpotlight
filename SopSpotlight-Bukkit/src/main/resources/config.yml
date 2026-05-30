@@ -1,0 +1,23 @@
+messages:
+  no-permission: "&cYou do not have permission to do this."
+  usage: "&e/spotlight send [player] [server]"
+  console-player-required: "&cConsole must specify an online player carrier."
+  player-offline: "&cPlayer is offline."
+  sent: "&aSpotlight request sent."
+  reloaded: "&aSopSpotlight-Bukkit reloaded."
+
+spotlight:
+  server-id: ""
+  send-avatar: true
+  sender-text: "%player_name%"
+  lines:
+    - " "
+    - ""
+    - ""
+    - "   <#08822A>{sender-text}</#08822A> <#0FFA51>is now playing on</#0FFA51>"
+    - "  <#F097F7>{server}</#F097F7>"
+    - ""
+    - "          <hover:show_text:'<yellow>Click'><click:run_command:/server {server}><#B0DDBD>[<#0FFA51>Click here to join!<#B0DDBD>]"
+    - ""
+    - ""
+    - " "

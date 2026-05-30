@@ -1,0 +1,9 @@
+{
+  "id": "sopspotlight",
+  "name": "SopSpotlight",
+  "version": "${project.version}",
+  "authors": [
+    "E_NeLsOn"
+  ],
+  "main": "net.enelson.sopspotlight.velocity.SopSpotlightVelocityPlugin"
+}
