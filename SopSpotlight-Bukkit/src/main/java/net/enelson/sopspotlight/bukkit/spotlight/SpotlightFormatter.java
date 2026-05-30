@@ -1,6 +1,7 @@
 package net.enelson.sopspotlight.bukkit.spotlight;
 
 import net.enelson.sopspotlight.bukkit.SopSpotlightBukkitPlugin;
+import net.enelson.sopli.lib.text.TextUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -26,10 +27,12 @@ public final class SpotlightFormatter {
 
     private final SopSpotlightBukkitPlugin plugin;
     private final MiniMessage miniMessage;
+    private final TextUtils textUtils;
 
     public SpotlightFormatter(SopSpotlightBukkitPlugin plugin) {
         this.plugin = plugin;
         this.miniMessage = MiniMessage.miniMessage();
+        this.textUtils = new TextUtils();
     }
 
     public SpotlightPayload buildOutboundPayload(Player contextPlayer, String playerName, String explicitServerId) {
@@ -120,7 +123,7 @@ public final class SpotlightFormatter {
         if (renderedLines == null || renderedLines.isEmpty()) {
             return lines;
         }
-        lines.add(miniMessage.deserialize(renderedLines.get(0)));
+        lines.add(miniMessage.deserialize(textUtils.prepareMiniMessage(renderedLines.get(0))));
 
         BufferedImage image = sendAvatar ? loadHeadImage(playerName) : null;
         if (image != null) {
@@ -132,20 +135,20 @@ public final class SpotlightFormatter {
                 }
                 int renderedIndex = (y - DEFAULT_START_PIXEL_Y) + 1;
                 if (renderedIndex < renderedLines.size()) {
-                    line = line.append(miniMessage.deserialize(renderedLines.get(renderedIndex)));
+                    line = line.append(miniMessage.deserialize(textUtils.prepareMiniMessage(renderedLines.get(renderedIndex))));
                 }
                 lines.add(line);
             }
         } else {
             for (int index = 1; index <= 8; index++) {
                 if (index < renderedLines.size()) {
-                    lines.add(miniMessage.deserialize(renderedLines.get(index)));
+                    lines.add(miniMessage.deserialize(textUtils.prepareMiniMessage(renderedLines.get(index))));
                 }
             }
         }
 
         if (renderedLines.size() > 9) {
-            lines.add(miniMessage.deserialize(renderedLines.get(9)));
+            lines.add(miniMessage.deserialize(textUtils.prepareMiniMessage(renderedLines.get(9))));
         }
         return lines;
     }

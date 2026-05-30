@@ -5,6 +5,9 @@ import com.google.common.io.ByteStreams;
 import net.enelson.sopspotlight.bukkit.SopSpotlightBukkitPlugin;
 import net.enelson.sopspotlight.bukkit.spotlight.SpotlightPayload;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -48,7 +51,8 @@ public final class SpotlightIncomingListener implements PluginMessageListener {
             }
             List<Component> lines = plugin.getSpotlightFormatter().buildRecipientLines(recipient, payload);
             for (Component line : lines) {
-                plugin.getAudiences().player(recipient).sendMessage(line);
+                BaseComponent[] components = ComponentSerializer.parse(GsonComponentSerializer.gson().serialize(line));
+                recipient.spigot().sendMessage(components);
             }
         }
     }

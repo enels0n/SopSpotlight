@@ -49,7 +49,7 @@ spotlight:
     - "   {sender-text} <#FFAA00>%soplocales_sopspotlight_message-playing-on%"
     - "  <#F097F7>%soplocales_sopspotlight_server-{server}%</#F097F7>"
     - ""
-    - "          <hover:show_text:'<yellow>Click'><click:run_command:/server {server}><#B0DDBD>[<#FFAA00>%soplocales_sopspotlight_message-click-to-join%<#B0DDBD>]"
+    - "          <click:run_command:'/server {server}'><hover:show_text:'<yellow>Click</yellow>'><#B0DDBD>[<#FFAA00>%soplocales_sopspotlight_message-click-to-join%</#FFAA00><#B0DDBD>]</#B0DDBD></hover></click>"
     - ""
     - ""
     - " "
@@ -74,6 +74,8 @@ That allows patterns like:
 - world-specific placeholders
 
 `sender-text` is also built on the sending server, so it can contain backend-specific PlaceholderAPI formatting such as a colored nickname or prefix.
+
+MiniMessage preprocessing for spotlight lines goes through `SopLib`, so shared tags like `<center>...</center>` and shifted forms such as `<center+20>...</center>` can be used there as well.
 
 Example:
 
