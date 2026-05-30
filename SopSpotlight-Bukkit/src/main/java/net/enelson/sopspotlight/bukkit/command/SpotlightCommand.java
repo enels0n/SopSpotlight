@@ -27,21 +27,25 @@ public final class SpotlightCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!sender.hasPermission("sopspotlight.admin")) {
-            sender.sendMessage(color(plugin.getConfig().getString("messages.no-permission", "&cNo permission.")));
-            return true;
-        }
         if (args.length == 0) {
             sender.sendMessage(color(plugin.getConfig().getString("messages.usage", "&e/spotlight send [player] [server]")));
             return true;
         }
         if ("reload".equalsIgnoreCase(args[0])) {
+            if (!sender.hasPermission("sopspotlight.reload")) {
+                sender.sendMessage(color(plugin.getConfig().getString("messages.no-permission", "&cNo permission.")));
+                return true;
+            }
             plugin.reloadPlugin();
             sender.sendMessage(color(plugin.getConfig().getString("messages.reloaded", "&aSopSpotlight-Bukkit reloaded.")));
             return true;
         }
         if (!"send".equalsIgnoreCase(args[0])) {
             sender.sendMessage(color(plugin.getConfig().getString("messages.usage", "&e/spotlight send [player] [server]")));
+            return true;
+        }
+        if (!sender.hasPermission("sopspotlight.send")) {
+            sender.sendMessage(color(plugin.getConfig().getString("messages.no-permission", "&cNo permission.")));
             return true;
         }
 
@@ -51,6 +55,12 @@ public final class SpotlightCommand implements CommandExecutor, TabCompleter {
 
         if (sender instanceof Player) {
             carrier = (Player) sender;
+            long remainingCooldown = plugin.getRemainingCooldownSeconds(carrier);
+            if (remainingCooldown > 0L) {
+                sender.sendMessage(color(plugin.getConfig().getString("messages.cooldown", "&cYou can use spotlight again in {seconds}s.")
+                        .replace("{seconds}", String.valueOf(remainingCooldown))));
+                return true;
+            }
             if (playerName.isEmpty()) {
                 playerName = carrier.getName();
             }
@@ -74,19 +84,26 @@ public final class SpotlightCommand implements CommandExecutor, TabCompleter {
         output.writeBoolean(payload.isSendAvatar());
         output.writeUTF(payload.getSenderText());
         carrier.sendPluginMessage(plugin, SopSpotlightBukkitPlugin.CHANNEL, output.toByteArray());
+        if (sender instanceof Player) {
+            plugin.applyCooldown((Player) sender);
+        }
         sender.sendMessage(color(plugin.getConfig().getString("messages.sent", "&aSpotlight request sent.")));
         return true;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if (!sender.hasPermission("sopspotlight.admin")) {
-            return Collections.emptyList();
-        }
         if (args.length == 1) {
-            return filter(Arrays.asList("send", "reload"), args[0]);
+            List<String> options = new ArrayList<String>();
+            if (sender.hasPermission("sopspotlight.send")) {
+                options.add("send");
+            }
+            if (sender.hasPermission("sopspotlight.reload")) {
+                options.add("reload");
+            }
+            return filter(options, args[0]);
         }
-        if (args.length == 2) {
+        if (args.length == 2 && "send".equalsIgnoreCase(args[0]) && sender.hasPermission("sopspotlight.send")) {
             List<String> players = new ArrayList<String>();
             for (Player player : Bukkit.getOnlinePlayers()) {
                 players.add(player.getName());

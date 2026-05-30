@@ -8,5 +8,7 @@ commands:
   spotlight:
     aliases: [spot]
 permissions:
-  sopspotlight.admin:
+  sopspotlight.send:
+    default: op
+  sopspotlight.reload:
     default: op

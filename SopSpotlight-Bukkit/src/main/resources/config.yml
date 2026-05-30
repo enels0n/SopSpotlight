@@ -3,11 +3,13 @@ messages:
   usage: "&e/spotlight send [player] [server]"
   console-player-required: "&cConsole must specify an online player carrier."
   player-offline: "&cPlayer is offline."
+  cooldown: "&cYou can use spotlight again in {seconds}s."
   sent: "&aSpotlight request sent."
   reloaded: "&aSopSpotlight-Bukkit reloaded."
 
 spotlight:
   server-id: ""
+  default-cooldown-seconds: 300
   send-avatar: true
   sender-text: "%player_name%"
   lines:

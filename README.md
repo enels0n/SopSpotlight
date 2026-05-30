@@ -40,11 +40,13 @@ messages:
   usage: "&e/spotlight send [player] [server]"
   console-player-required: "&cConsole must specify an online player carrier."
   player-offline: "&cPlayer is offline."
+  cooldown: "&cYou can use spotlight again in {seconds}s."
   sent: "&aSpotlight request sent."
   reloaded: "&aSopSpotlight-Bukkit reloaded."
 
 spotlight:
   server-id: "pillars"
+  default-cooldown-seconds: 300
   send-avatar: true
   sender-text: "%player_name%"
   lines:
@@ -82,6 +84,12 @@ That allows patterns like:
 
 MiniMessage preprocessing for spotlight lines goes through `SopLib`, so shared tags like `<center>...</center>` and shifted forms such as `<center+20>...</center>` can be used there as well.
 
+Cooldown is enforced on the Bukkit side for `/spotlight send`.
+
+- `spotlight.default-cooldown-seconds` sets the default cooldown
+- `sopspotlight.cooldown.100` lowers the cooldown to `100` seconds
+- if a player has multiple `sopspotlight.cooldown.X` permissions, the smallest value wins
+
 Example:
 
 ```yml
@@ -113,7 +121,9 @@ debug: false
 
 ## Permission
 
-- `sopspotlight.admin`
+- `sopspotlight.send`
+- `sopspotlight.reload`
+- `sopspotlight.cooldown.<seconds>`
 
 ## Notes
 
