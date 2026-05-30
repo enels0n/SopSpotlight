@@ -25,43 +25,6 @@
                 </includes>
             </resource>
         </resources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.1</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <configuration>
-                            <target>
-                                <delete file="${project.build.directory}/original-${project.name}.jar" quiet="true" />
-                                <delete file="${project.build.directory}/${project.build.finalName}-${project.version}-shaded.jar" quiet="true" />
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
     </build>
 
     <repositories>
@@ -82,16 +45,19 @@
             <groupId>net.enelson.sopli.lib</groupId>
             <artifactId>soplib-core</artifactId>
             <version>1.0.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-minimessage</artifactId>
             <version>4.17.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-serializer-gson</artifactId>
             <version>4.13.1</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

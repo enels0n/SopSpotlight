@@ -3,6 +3,7 @@ main: net.enelson.sopspotlight.bukkit.SopSpotlightBukkitPlugin
 version: ${project.version}
 authors: [E_NeLsOn]
 api-version: 1.16
+depend: [SopLib]
 commands:
   spotlight:
     aliases: [spot]

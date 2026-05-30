@@ -9,6 +9,11 @@ It lets a backend server announce that a player is currently playing on that ser
 - `SopSpotlight-Bukkit` - command handling, local formatting template, PlaceholderAPI support, local delivery to players
 - `SopSpotlight-Velocity` - proxy relay between backend servers
 
+## Requirements
+
+- `SopLib` on every Bukkit/Paper backend running `SopSpotlight-Bukkit`
+- `Velocity` for the proxy module
+
 ## How it works
 
 1. A player or console runs `/spotlight send [player] [server]` on a Bukkit/Paper server.
